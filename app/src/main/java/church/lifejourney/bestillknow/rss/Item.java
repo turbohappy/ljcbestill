@@ -23,11 +23,12 @@ public class Item {
     private Date pubDate;
 
     @Namespace(prefix = "dc")
-    @Element
+    @Element(required=false)
     private String creator;
 
-    @Element
-    private String category;
+//    @Element(required=false)
+//    private String category;
+    //TODO: causing exception which seems odd
 
     @Element(required=false)
     private String description;
@@ -60,7 +61,7 @@ public class Item {
         return creator;
     }
 
-    public String getCategory() {
-        return category;
-    }
+//    public String getCategory() {
+//        return category;
+//    }
 }
