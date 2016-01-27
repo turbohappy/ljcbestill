@@ -3,6 +3,7 @@ package church.lifejourney.bestillknow.rss;
 import android.os.AsyncTask;
 
 import org.simpleframework.xml.Serializer;
+import org.simpleframework.xml.convert.AnnotationStrategy;
 import org.simpleframework.xml.core.Persister;
 
 import java.net.URL;
@@ -32,7 +33,7 @@ public class RSSTask  extends AsyncTask<String, Void, RSS> {
     }
 
     private RSS read(String url) throws Exception {
-        Serializer serializer = new Persister();
+        Serializer serializer = new Persister(new AnnotationStrategy());
 
         RSS rss = serializer.read(RSS.class, new URL(url).openStream(), false);
         return rss;

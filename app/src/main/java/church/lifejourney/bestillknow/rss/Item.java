@@ -2,7 +2,10 @@ package church.lifejourney.bestillknow.rss;
 
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Namespace;
+import org.simpleframework.xml.convert.Convert;
 
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.Date;
 
 /**
@@ -15,8 +18,16 @@ public class Item {
     @Element(required=false)
     private String link;
 
-//    @Element(required=false)
-//    private Date pubDate;
+    @Element(required=false)
+    @Convert(PubDateConverter.class)
+    private Date pubDate;
+
+    @Namespace(prefix = "dc")
+    @Element
+    private String creator;
+
+    @Element
+    private String category;
 
     @Element(required=false)
     private String description;
@@ -33,9 +44,9 @@ public class Item {
         return link;
     }
 
-//    public Date getPubDate() {
-//        return pubDate;
-//    }
+    public Date getPubDate() {
+        return pubDate;
+    }
 
     public String getDescription() {
         return description;
@@ -43,5 +54,13 @@ public class Item {
 
     public String getContent() {
         return content;
+    }
+
+    public String getCreator() {
+        return creator;
+    }
+
+    public String getCategory() {
+        return category;
     }
 }
