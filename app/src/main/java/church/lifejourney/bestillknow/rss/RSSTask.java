@@ -9,6 +9,8 @@ import org.simpleframework.xml.core.Persister;
 import java.net.URL;
 import java.util.List;
 
+import church.lifejourney.bestillknow.helper.Logger;
+
 /**
  * Created by bdavis on 1/27/16.
  */
@@ -25,8 +27,9 @@ public class RSSTask  extends AsyncTask<String, Void, RSS> {
 
     protected RSS doInBackground(String... urls) {
         try {
-            RSS rss = read(urls[0]);
-            return rss;
+            String url = urls[0];
+            Logger.debug(this, "Reading " + url);
+            return read(url);
         } catch (Exception e) {
             this.exception = e;
             return null;

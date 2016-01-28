@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import church.lifejourney.bestillknow.R;
+import church.lifejourney.bestillknow.helper.VerticalBoundsScrollListener;
 import church.lifejourney.bestillknow.rss.RSSList;
 
 public class DevListActivity extends AppCompatActivity implements RSSList.RSSListUpdatedListener {
@@ -34,10 +35,25 @@ public class DevListActivity extends AppCompatActivity implements RSSList.RSSLis
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        // specify an adapter (see also next example)
         this.rssList = new RSSList(this);
+
+        // specify an adapter (see also next example)
         mAdapter = new DevListAdapter(rssList);
         mRecyclerView.setAdapter(mAdapter);
+
+        mRecyclerView.addOnScrollListener(new VerticalBoundsScrollListener() {
+            @Override
+            public void onScrolledToTop() {
+                // don't care
+            }
+
+            @Override
+            public void onScrolledToBottom() {
+                if(!rssList.loading()) {
+                    rssList.loadAnotherPage();
+                }
+            }
+        });
     }
 
     @Override
