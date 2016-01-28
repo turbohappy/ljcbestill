@@ -9,12 +9,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import church.lifejourney.bestillknow.R;
-import church.lifejourney.bestillknow.rss.RSSTask;
+import church.lifejourney.bestillknow.rss.RSSList;
 
-public class DevListActivity extends AppCompatActivity {
+public class DevListActivity extends AppCompatActivity implements RSSList.RSSListUpdatedListener {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    private RSSList rssList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,11 +35,9 @@ public class DevListActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
-        String[] myDataset = {"test1", "test2", "test3", "test4", "test5", "test6", "test7", "test8"};
-        mAdapter = new DevListAdapter(myDataset);
+        this.rssList = new RSSList(this);
+        mAdapter = new DevListAdapter(rssList);
         mRecyclerView.setAdapter(mAdapter);
-
-        new RSSTask().execute("http://lifejourneychurch.cc/bestill/feed");
     }
 
     @Override
@@ -61,5 +60,10 @@ public class DevListActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void listUpdated() {
+        mAdapter.notifyItemInserted(rssList.size() - 1);
     }
 }

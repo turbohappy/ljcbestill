@@ -7,12 +7,14 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import church.lifejourney.bestillknow.R;
+import church.lifejourney.bestillknow.rss.Item;
+import church.lifejourney.bestillknow.rss.RSSList;
 
 /**
  * Created by bdavis on 1/28/16.
  */
 public class DevListAdapter extends RecyclerView.Adapter<DevListAdapter.ViewHolder> {
-    private String[] mDataset;
+    private RSSList rssList;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -28,12 +30,10 @@ public class DevListAdapter extends RecyclerView.Adapter<DevListAdapter.ViewHold
         }
     }
 
-    // Provide a suitable constructor (depends on the kind of dataset)
-    public DevListAdapter(String[] myDataset) {
-        mDataset = myDataset;
+    public DevListAdapter(RSSList rssList) {
+        this.rssList = rssList;
     }
 
-    // Create new views (invoked by the layout manager)
     @Override
     public DevListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
                                                    int viewType) {
@@ -41,24 +41,18 @@ public class DevListAdapter extends RecyclerView.Adapter<DevListAdapter.ViewHold
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.card_dev, parent, false);
         // set the view's size, margins, paddings and layout parameters
-        //TODO:
-        ViewHolder vh = new ViewHolder(v);
-        return vh;
+        return new ViewHolder(v);
     }
 
-    // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        // - get element from your dataset at this position
-        // - replace the contents of the view with that element
-        holder.titleView.setText(mDataset[position]);
-        holder.authorView.setText("your momma");
-
+        Item item = rssList.getItem(position);
+        holder.titleView.setText(item.getTitle());
+        holder.authorView.setText(item.getCreator());
     }
 
-    // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return mDataset.length;
+        return rssList.size();
     }
 }

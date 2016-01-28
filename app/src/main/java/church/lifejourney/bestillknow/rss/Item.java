@@ -13,29 +13,29 @@ import java.util.Date;
  */
 public class Item {
     @Element(required=false)
-    private String title;
+    protected String title;
 
     @Element(required=false)
-    private String link;
+    protected String link;
 
     @Element(required=false)
     @Convert(PubDateConverter.class)
-    private Date pubDate;
+    protected Date pubDate;
 
     @Namespace(prefix = "dc")
     @Element(required=false)
-    private String creator;
+    protected String creator;
 
 //    @Element(required=false)
 //    private String category;
     //TODO: causing exception which seems odd
 
     @Element(required=false)
-    private String description;
+    protected String description;
 
     @Namespace(prefix = "content")
     @Element(name = "encoded")
-    private String content;
+    protected String content;
 
     public String getTitle() {
         return title;
