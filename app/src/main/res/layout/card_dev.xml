@@ -19,36 +19,61 @@
             android:padding="16dp"
             >
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/person_photo"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginRight="16dp"
-                android:layout_marginEnd="16dp"
-                />
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:id="@+id/card_date"
+                          android:layout_alignParentLeft="true"
+                          android:layout_alignParentStart="true"
+                          android:layout_alignParentTop="false"
+                          android:layout_marginRight="16dp"
+                          android:layout_marginEnd="16dp"
+                          android:orientation="vertical"
+                          android:background="@drawable/card_date"
+                          android:paddingLeft="@dimen/card_date_horizontal_padding"
+                          android:paddingRight="@dimen/card_date_horizontal_padding"
+                          android:paddingTop="@dimen/card_date_vertical_padding"
+                          android:paddingBottom="@dimen/card_date_vertical_padding"
+                          android:paddingEnd="@dimen/card_date_horizontal_padding"
+                          android:paddingStart="@dimen/card_date_horizontal_padding"
+                          android:layout_centerVertical="true">
+                <TextView android:id="@+id/card_date_day"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:textSize="30sp"
+                          android:text="22"
+                          android:layout_gravity="center_horizontal"
+                          android:textColor="#ffffff"/>
+                <TextView android:id="@+id/card_date_monthyear"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:text="Jan 2016"
+                          android:textColor="#ffffff"/>
+            </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/card_title"
-                android:layout_toRightOf="@+id/person_photo"
-                android:layout_toEndOf="@+id/person_photo"
-                android:layout_alignParentTop="true"
-                android:textSize="30sp"
-                />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/card_author"
-                android:layout_toRightOf="@+id/person_photo"
-                android:layout_toEndOf="@+id/person_photo"
-                android:layout_below="@+id/card_title"
-                />
-
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:id="@+id/card_info"
+                          android:layout_alignParentTop="false"
+                          android:layout_toRightOf="@+id/card_date"
+                          android:layout_toEndOf="@+id/card_date"
+                          android:orientation="vertical"
+                          android:layout_centerVertical="true">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/card_title"
+                    android:textSize="@dimen/card_title_size"
+                    android:text="The Title Of The Article!"
+                    android:maxLines="@integer/card_title_maxlines"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/card_author"
+                    android:text="by Author's Name"
+                    android:maxLines="@integer/card_author_maxlines"/>
+                </LinearLayout>
         </RelativeLayout>
 
     </android.support.v7.widget.CardView>
