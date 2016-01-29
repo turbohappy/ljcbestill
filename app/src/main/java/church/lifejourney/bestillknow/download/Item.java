@@ -1,11 +1,9 @@
-package church.lifejourney.bestillknow.rss;
+package church.lifejourney.bestillknow.download;
 
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Namespace;
 import org.simpleframework.xml.convert.Convert;
 
-import java.sql.Time;
-import java.sql.Timestamp;
 import java.util.Date;
 
 /**

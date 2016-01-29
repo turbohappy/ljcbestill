@@ -1,4 +1,4 @@
-package church.lifejourney.bestillknow.rss;
+package church.lifejourney.bestillknow.download;
 
 import org.simpleframework.xml.convert.Converter;
 import org.simpleframework.xml.stream.InputNode;

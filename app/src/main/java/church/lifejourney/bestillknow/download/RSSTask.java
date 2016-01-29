@@ -1,4 +1,4 @@
-package church.lifejourney.bestillknow.rss;
+package church.lifejourney.bestillknow.download;
 
 import android.os.AsyncTask;
 

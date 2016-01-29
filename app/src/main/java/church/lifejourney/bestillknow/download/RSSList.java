@@ -1,4 +1,4 @@
-package church.lifejourney.bestillknow.rss;
+package church.lifejourney.bestillknow.download;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +20,7 @@ public class RSSList {
         this.lastPageLoaded = 0;
         this.loading = false;
         loadAnotherPage(); // load first page
+        loadAnotherPage(); // load second page
     }
 
     public boolean loading() {

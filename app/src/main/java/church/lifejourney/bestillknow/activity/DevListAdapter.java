@@ -1,5 +1,7 @@
 package church.lifejourney.bestillknow.activity;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,13 +12,15 @@ import java.text.SimpleDateFormat;
 import java.util.Locale;
 
 import church.lifejourney.bestillknow.R;
-import church.lifejourney.bestillknow.rss.Item;
-import church.lifejourney.bestillknow.rss.RSSList;
+import church.lifejourney.bestillknow.ShowDevotionalActivity;
+import church.lifejourney.bestillknow.download.Item;
+import church.lifejourney.bestillknow.download.RSSList;
 
 /**
  * Created by bdavis on 1/28/16.
  */
 public class DevListAdapter extends RecyclerView.Adapter<DevListAdapter.ViewHolder> {
+    private Activity parent;
     private RSSList rssList;
 
     // Provide a reference to the views for each data item
@@ -37,7 +41,8 @@ public class DevListAdapter extends RecyclerView.Adapter<DevListAdapter.ViewHold
         }
     }
 
-    public DevListAdapter(RSSList rssList) {
+    public DevListAdapter(Activity parent, RSSList rssList) {
+        this.parent = parent;
         this.rssList = rssList;
     }
 
@@ -53,11 +58,19 @@ public class DevListAdapter extends RecyclerView.Adapter<DevListAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Item item = rssList.getItem(position);
+        final Item item = rssList.getItem(position);
         holder.titleView.setText(item.getTitle());
         holder.authorView.setText(String.format("by %s", item.getCreator()));
         holder.dayView.setText(new SimpleDateFormat("d", Locale.US).format(item.getPubDate()));
         holder.monthyearView.setText(new SimpleDateFormat("MMM yyyy", Locale.US).format(item.getPubDate()));
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(parent.getApplicationContext(), ShowDevotionalActivity.class);
+                intent.putExtra("url", item.getLink());
+                parent.startActivity(intent);
+            }
+        });
     }
 
     @Override

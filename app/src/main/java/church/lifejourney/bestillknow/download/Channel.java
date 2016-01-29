@@ -1,6 +1,5 @@
-package church.lifejourney.bestillknow.rss;
+package church.lifejourney.bestillknow.download;
 
-import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
 
 import java.util.List;
