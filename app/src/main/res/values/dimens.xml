@@ -5,7 +5,10 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="card_horizontal_margin">0dp</dimen>
     <dimen name="card_vertical_margin">0dp</dimen>
-    <dimen name="card_date_horizontal_padding">16dp</dimen>
-    <dimen name="card_date_vertical_padding">6dp</dimen>
-    <dimen name="card_title_size">20sp</dimen>
+    <dimen name="card_date_horizontal_padding">6dp</dimen>
+    <dimen name="card_date_vertical_padding">4dp</dimen>
+    <dimen name="card_title_size">16sp</dimen>
+    <dimen name="card_author_size">14sp</dimen>
+    <dimen name="card_day_size">20sp</dimen>
+    <dimen name="card_monthyear_size">12sp</dimen>
 </resources>

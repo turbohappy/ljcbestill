@@ -1,85 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:card_view="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:paddingLeft="@dimen/card_horizontal_margin"
-              android:paddingRight="@dimen/card_horizontal_margin"
-              android:paddingTop="@dimen/card_vertical_margin"
-              android:paddingBottom="@dimen/card_vertical_margin"
-              android:paddingEnd="@dimen/card_horizontal_margin"
-              android:paddingStart="@dimen/card_horizontal_margin"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/card_bg"
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp"
     >
 
-    <android.support.v7.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/cv"
-        >
+    <LinearLayout android:id="@+id/card_date"
+                  xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_alignParentTop="false"
+                  android:layout_centerVertical="true"
+                  android:background="@drawable/card_date"
+                  android:orientation="vertical"
+                  android:layout_alignParentLeft="true"
+                  android:layout_alignParentStart="true"
+                  android:layout_marginLeft="16dp"
 
-        <RelativeLayout
-            android:layout_width="match_parent"
+
+                  android:paddingBottom="@dimen/card_date_vertical_padding"
+                  android:paddingEnd="@dimen/card_date_horizontal_padding"
+                  android:paddingLeft="@dimen/card_date_horizontal_padding"
+                  android:paddingRight="@dimen/card_date_horizontal_padding"
+                  android:paddingStart="@dimen/card_date_horizontal_padding"
+                  android:paddingTop="@dimen/card_date_vertical_padding"
+                  android:layout_marginStart="16dp">
+
+        <TextView
+            android:id="@+id/card_date_day"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="16dp"
-            >
+            android:layout_gravity="center_horizontal"
+            android:text="22"
+            android:textColor="#ffffff"
+            android:textSize="@dimen/card_day_size"/>
 
-            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                          android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          android:id="@+id/card_date"
-                          android:layout_alignParentLeft="true"
-                          android:layout_alignParentStart="true"
-                          android:layout_alignParentTop="false"
-                          android:layout_marginRight="16dp"
-                          android:layout_marginEnd="16dp"
-                          android:orientation="vertical"
-                          android:background="@drawable/card_date"
-                          android:paddingLeft="@dimen/card_date_horizontal_padding"
-                          android:paddingRight="@dimen/card_date_horizontal_padding"
-                          android:paddingTop="@dimen/card_date_vertical_padding"
-                          android:paddingBottom="@dimen/card_date_vertical_padding"
-                          android:paddingEnd="@dimen/card_date_horizontal_padding"
-                          android:paddingStart="@dimen/card_date_horizontal_padding"
-                          android:layout_centerVertical="true">
-                <TextView android:id="@+id/card_date_day"
-                          android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          android:textSize="30sp"
-                          android:text="22"
-                          android:layout_gravity="center_horizontal"
-                          android:textColor="#ffffff"/>
-                <TextView android:id="@+id/card_date_monthyear"
-                          android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          android:text="Jan 2016"
-                          android:textColor="#ffffff"/>
-            </LinearLayout>
+        <TextView
+            android:id="@+id/card_date_monthyear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Jan 2016"
+            android:textColor="#ffffff"
+            android:textSize="@dimen/card_monthyear_size"/>
+    </LinearLayout>
 
-            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                          android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          android:id="@+id/card_info"
-                          android:layout_alignParentTop="false"
-                          android:layout_toRightOf="@+id/card_date"
-                          android:layout_toEndOf="@+id/card_date"
-                          android:orientation="vertical"
-                          android:layout_centerVertical="true">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/card_title"
-                    android:textSize="@dimen/card_title_size"
-                    android:text="The Title Of The Article!"
-                    android:maxLines="@integer/card_title_maxlines"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/card_author"
-                    android:text="by Author's Name"
-                    android:maxLines="@integer/card_author_maxlines"/>
-                </LinearLayout>
-        </RelativeLayout>
+    <LinearLayout android:id="@+id/card_info"
+                  xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_alignParentTop="false"
+                  android:layout_centerVertical="true"
+                  android:layout_toRightOf="@id/card_date"
+                  android:layout_toEndOf="@id/card_date"
+                  android:layout_marginLeft="16dp"
+                  android:layout_marginStart="16dp"
+                  android:layout_marginRight="16dp"
+                  android:layout_marginEnd="16dp"
+                  android:orientation="vertical">
 
-    </android.support.v7.widget.CardView>
+        <TextView
+            android:id="@+id/card_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="@integer/card_title_maxlines"
+            android:text="The Title Of The Article!"
+            android:textSize="@dimen/card_title_size"
+            android:textColor="@color/textPrimary"
+            />
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/card_author"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="@integer/card_author_maxlines"
+            android:text="by Author's Name"
+            android:textSize="@dimen/card_author_size"
+            android:textColor="@color/textSecondary"/>
+    </LinearLayout>
+</RelativeLayout>
