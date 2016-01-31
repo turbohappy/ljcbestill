@@ -7,8 +7,10 @@
     tools:context="church.lifejourney.bestillknow.ShowDevotionalActivity"
     tools:showIn="@layout/activity_show_devotional">
 
-    <WebView
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/dev_web_view"/>
+        android:id="@+id/dev_content_view"
+        android:scrollbars="vertical"
+        />
 </RelativeLayout>

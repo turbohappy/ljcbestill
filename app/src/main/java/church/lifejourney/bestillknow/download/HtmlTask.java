@@ -1,7 +1,10 @@
 package church.lifejourney.bestillknow.download;
 
 import android.os.AsyncTask;
+import android.text.Html;
+import android.text.method.ScrollingMovementMethod;
 import android.webkit.WebView;
+import android.widget.TextView;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -14,10 +17,10 @@ import church.lifejourney.bestillknow.helper.Logger;
  */
 public class HtmlTask extends AsyncTask<String, Void, String> {
 
-    private WebView webView;
+    private TextView contentView;
 
-    public HtmlTask(WebView webView) {
-        this.webView = webView;
+    public HtmlTask(TextView contentView) {
+        this.contentView = contentView;
     }
 
     private Exception exception;
@@ -27,11 +30,7 @@ public class HtmlTask extends AsyncTask<String, Void, String> {
             String url = urls[0];
             Logger.debug(this, "Reading html from " + url);
             Document doc = Jsoup.connect(url).get();
-            String output = "<!DOCTYPE html>\n<html lang=\"en-US\">";
-            output += generateHead(doc);
-            output += generateBody(doc);
-            output += "</html>";
-            return output;
+            return generateBody(doc);
         } catch (Exception e) {
             this.exception = e;
             return null;
@@ -41,17 +40,15 @@ public class HtmlTask extends AsyncTask<String, Void, String> {
     protected void onPostExecute(String html) {
         // TODO: check this.exception
 
-        webView.loadData(html,"text/html","UTF-8");
+        contentView.setText(Html.fromHtml(html));
+        contentView.setMovementMethod(new ScrollingMovementMethod());
     }
 
     private String generateBody(Document doc) {
         String output = "<body>\n";
 
-        doc.select("div.entry-meta-bottom").remove();
-        doc.select("div#comments").remove();
-        doc.select("div#loop-nav-singlular-post").remove();
-
-        Element primary = doc.select("div#primary").first();
+        Element primary = doc.select("div.entry-content").first();
+        primary.select("p.no-break").remove();
         output += primary.outerHtml();
         output += "\n</body>";
         return output;

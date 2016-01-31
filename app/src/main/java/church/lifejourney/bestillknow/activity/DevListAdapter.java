@@ -68,6 +68,7 @@ public class DevListAdapter extends RecyclerView.Adapter<DevListAdapter.ViewHold
             public void onClick(View v) {
                 Intent intent = new Intent(parent.getApplicationContext(), ShowDevotionalActivity.class);
                 intent.putExtra("url", item.getLink());
+                intent.putExtra("content", item.getContent());
                 parent.startActivity(intent);
             }
         });
