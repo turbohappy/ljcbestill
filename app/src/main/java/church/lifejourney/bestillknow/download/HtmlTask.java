@@ -1,15 +1,17 @@
 package church.lifejourney.bestillknow.download;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.text.Html;
-import android.text.method.ScrollingMovementMethod;
-import android.webkit.WebView;
 import android.widget.TextView;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
+import church.lifejourney.bestillknow.activity.PassageActivity;
+import church.lifejourney.bestillknow.activity.ShowDevotionalActivity;
 import church.lifejourney.bestillknow.helper.Logger;
 
 /**
@@ -30,7 +32,8 @@ public class HtmlTask extends AsyncTask<String, Void, String> {
             String url = urls[0];
             Logger.debug(this, "Reading html from " + url);
             Document doc = Jsoup.connect(url).get();
-            return generateBody(doc);
+            Element el = doc.select("div.result-text-style-normal.text-html").first();
+            return el.outerHtml();
         } catch (Exception e) {
             this.exception = e;
             return null;
@@ -39,34 +42,7 @@ public class HtmlTask extends AsyncTask<String, Void, String> {
 
     protected void onPostExecute(String html) {
         // TODO: check this.exception
-
         contentView.setText(Html.fromHtml(html));
-        contentView.setMovementMethod(new ScrollingMovementMethod());
-    }
-
-    private String generateBody(Document doc) {
-        String output = "<body>\n";
-
-        Element primary = doc.select("div.entry-content").first();
-        primary.select("p.no-break").remove();
-        output += primary.outerHtml();
-        output += "\n</body>";
-        return output;
-    }
-
-    private String generateHead(Document doc) {
-        String output = "<head>\n<meta charset=\"UTF-8\">\n";
-
-        for (Element stylesheet : doc.select("link[rel=\"stylesheet\"]")) {
-            output += stylesheet.outerHtml() + "\n";
-        }
-        for (Element stylesheet : doc.select("style")) {
-            output += stylesheet.outerHtml() + "\n";
-        }
-
-        output += "<style>body { min-width: 0px !important; }</style>";
-
-        output += "\n</head>";
-        return output;
+        Logger.debug(this, "passage is [" + html + "]");
     }
 }

@@ -12,7 +12,6 @@ import java.text.SimpleDateFormat;
 import java.util.Locale;
 
 import church.lifejourney.bestillknow.R;
-import church.lifejourney.bestillknow.ShowDevotionalActivity;
 import church.lifejourney.bestillknow.download.Item;
 import church.lifejourney.bestillknow.download.RSSList;
 
