@@ -25,7 +25,6 @@ public class ShowDevotionalActivity extends AppCompatActivity {
         TextView contentView = (TextView) findViewById(R.id.dev_content_view);
 
         String content = getIntent().getStringExtra("content");
-        content = content.replaceAll("<[/]*em>", "");
         contentView.setText(Html.fromHtml(content, new DevotionalImageGetter(), new DevotionalTagHandler()));
         contentView.setMovementMethod(new ScrollingMovementMethod());
     }
