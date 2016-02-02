@@ -20,7 +20,6 @@ public class RSSList {
         this.lastPageLoaded = 0;
         this.loading = false;
         loadAnotherPage(); // load first page
-        loadAnotherPage(); // load second page
     }
 
     public boolean loading() {

@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import church.lifejourney.bestillknow.R;
-import church.lifejourney.bestillknow.download.HtmlTask;
+import church.lifejourney.bestillknow.download.LoadPassageTask;
 
 public class PassageActivity extends AppCompatActivity {
 
@@ -17,6 +17,6 @@ public class PassageActivity extends AppCompatActivity {
         String passageUrl = getIntent().getStringExtra("passageUrl");
 
         TextView contentView = (TextView) findViewById(R.id.passage_text);
-        new HtmlTask(contentView).execute(passageUrl);
+        new LoadPassageTask(contentView).execute(passageUrl);
     }
 }

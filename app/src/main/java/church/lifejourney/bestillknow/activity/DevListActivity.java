@@ -9,77 +9,87 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import church.lifejourney.bestillknow.R;
-import church.lifejourney.bestillknow.helper.VerticalBoundsScrollListener;
 import church.lifejourney.bestillknow.download.RSSList;
 
 public class DevListActivity extends AppCompatActivity implements RSSList.RSSListUpdatedListener {
-    private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
-    private RSSList rssList;
+	private RecyclerView mRecyclerView;
+	private RecyclerView.Adapter mAdapter;
+	private LinearLayoutManager mLayoutManager;
+	private RSSList rssList;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dev_list);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_dev_list);
+		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+		setSupportActionBar(toolbar);
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.dev_recycler_view);
+		mRecyclerView = (RecyclerView) findViewById(R.id.dev_recycler_view);
 
-        // use this setting to improve performance if you know that changes
-        // in content do not change the layout size of the RecyclerView
-        mRecyclerView.setHasFixedSize(true);
+		// use this setting to improve performance if you know that changes
+		// in content do not change the layout size of the RecyclerView
+		mRecyclerView.setHasFixedSize(true);
 
-        // use a linear layout manager
-        mLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mLayoutManager);
+		// use a linear layout manager
+		mLayoutManager = new LinearLayoutManager(this);
+		mRecyclerView.setLayoutManager(mLayoutManager);
 
-        this.rssList = new RSSList(this);
+		this.rssList = new RSSList(this);
 
-        // specify an adapter (see also next example)
-        mAdapter = new DevListAdapter(this, rssList);
-        mRecyclerView.setAdapter(mAdapter);
+		// specify an adapter (see also next example)
+		mAdapter = new DevListAdapter(this, rssList);
+		mRecyclerView.setAdapter(mAdapter);
 
-        mRecyclerView.addOnScrollListener(new VerticalBoundsScrollListener() {
-            @Override
-            public void onScrolledToTop() {
-                // don't care
-            }
+		mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+			@Override
+			public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+				super.onScrollStateChanged(recyclerView, newState);
+			}
 
-            @Override
-            public void onScrolledToBottom() {
-                if(!rssList.loading()) {
-                    rssList.loadAnotherPage();
-                }
-            }
-        });
-    }
+			@Override
+			public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+				super.onScrolled(recyclerView, dx, dy);
+				loadMoreIfNeeded();
+			}
+		});
+	}
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        // getMenuInflater().inflate(R.menu.menu_dev_list, menu);
-        return true;
-    }
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		// getMenuInflater().inflate(R.menu.menu_dev_list, menu);
+		return true;
+	}
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle action bar item clicks here. The action bar will
+		// automatically handle clicks on the Home/Up button, so long
+		// as you specify a parent activity in AndroidManifest.xml.
+		int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+		//noinspection SimplifiableIfStatement
+		if (id == R.id.action_settings) {
+			return true;
+		}
 
-        return super.onOptionsItemSelected(item);
-    }
+		return super.onOptionsItemSelected(item);
+	}
 
-    @Override
-    public void listUpdated() {
-        mAdapter.notifyItemInserted(rssList.size() - 1);
-    }
+	@Override
+	public void listUpdated() {
+		mAdapter.notifyItemInserted(rssList.size() - 1);
+		loadMoreIfNeeded();
+	}
+
+	private static final int visibleThreshold = 3;
+
+	public void loadMoreIfNeeded() {
+		int totalItemCount = mLayoutManager.getItemCount();
+		int lastVisibleItem = mLayoutManager.findLastVisibleItemPosition();
+		if (!rssList.loading() && totalItemCount <= (lastVisibleItem + visibleThreshold)) {
+			// End has been nearly reached
+			rssList.loadAnotherPage();
+		}
+	}
 }

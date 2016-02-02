@@ -17,11 +17,11 @@ import church.lifejourney.bestillknow.helper.Logger;
 /**
  * Created by bdavis on 1/27/16.
  */
-public class HtmlTask extends AsyncTask<String, Void, String> {
+public class LoadPassageTask extends AsyncTask<String, Void, String> {
 
     private TextView contentView;
 
-    public HtmlTask(TextView contentView) {
+    public LoadPassageTask(TextView contentView) {
         this.contentView = contentView;
     }
 
@@ -30,7 +30,7 @@ public class HtmlTask extends AsyncTask<String, Void, String> {
     protected String doInBackground(String... urls) {
         try {
             String url = urls[0];
-            Logger.debug(this, "Reading html from " + url);
+            Logger.debug(this, "Loading passage from " + url);
             Document doc = Jsoup.connect(url).get();
             Element el = doc.select("div.result-text-style-normal.text-html").first();
             return el.outerHtml();
@@ -43,6 +43,5 @@ public class HtmlTask extends AsyncTask<String, Void, String> {
     protected void onPostExecute(String html) {
         // TODO: check this.exception
         contentView.setText(Html.fromHtml(html));
-        Logger.debug(this, "passage is [" + html + "]");
     }
 }
