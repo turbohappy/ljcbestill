@@ -1,5 +1,6 @@
 package church.lifejourney.bestillknow.helper;
 
+import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -11,19 +12,25 @@ public class DevotionalContentParser {
 	public Sections splitContent(String content) {
 		Sections output = new Sections();
 		Matcher scriptureSection = findScriptureSection(content);
-		if (scriptureSection == null) {
-			output.content = content;
-		} else {
-			output.intro = content.substring(0, scriptureSection.start());
-			parseScriptureSection(content.substring(scriptureSection.start(),
-					scriptureSection.end()), output);
-			output.content = content.substring(scriptureSection.end());
+		if (scriptureSection != null) {
+			try {
+				parseScriptureSection(content.substring(scriptureSection.start(),
+						scriptureSection.end()), output);
+				output.intro = content.substring(0, scriptureSection.start());
+				output.content = content.substring(scriptureSection.end());
+				return output;
+			} catch (IOException e) {
+				//this is OK, just fall through
+			}
 		}
+
+		//default if we couldn't parse properly
+		output.content = content;
 		return output;
 	}
 
 	private Matcher findScriptureSection(String content) {
-		Matcher matcher = Pattern.compile("<p><strong>Today[^:]+:</strong>[^\\(]+(\\([^\\)]+\\)[ ]*)+[^<]*</p>").matcher(content);
+		Matcher matcher = Pattern.compile("<p[^<]+<strong>Today[^<]+</strong>[^\\(]+(\\([^\\)]+\\)[ ]*)+[^<]*</p>").matcher(content);
 		if (matcher.find()) {
 			return matcher;
 		} else {
@@ -33,13 +40,13 @@ public class DevotionalContentParser {
 	}
 
 	private void parseScriptureSection(String scriptureSection, Sections
-			sections) {
+			sections) throws IOException {
 		Matcher matcher = Pattern.compile("</strong>([^\\(]+)(\\([^\\)]+\\)[ ]*)+[^<]*</p>").matcher(scriptureSection);
 		if (matcher.find()) {
 			sections.passages = matcher.group(1);
 		} else {
 			Logger.error(this, "Couldn't find passages in [" + scriptureSection + "]", null);
-			throw new RuntimeException("Couldn't find passages");
+			throw new IOException("Couldn't find passages");
 		}
 
 		matcher = Pattern.compile("<a href=\"(http[s]*://www.biblegateway.com/passage/\\?search=[^&]+&amp;version=)").matcher(scriptureSection);
@@ -47,14 +54,14 @@ public class DevotionalContentParser {
 			sections.linkStub = matcher.group(1).replaceAll("&amp;", "&");
 		} else {
 			Logger.error(this, "Couldn't find bg link in [" + scriptureSection + "]", null);
-			throw new RuntimeException("Couldn't find BibleGateway link");
+			throw new IOException("Couldn't find BibleGateway link");
 		}
 	}
 
 	public static class Sections {
-		public String intro = "";
-		public String passages = "";
-		public String linkStub = "";
-		public String content = "";
+		public String intro = null;
+		public String passages = null;
+		public String linkStub = null;
+		public String content = null;
 	}
 }

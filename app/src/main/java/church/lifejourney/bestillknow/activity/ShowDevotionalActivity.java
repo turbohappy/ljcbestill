@@ -2,12 +2,10 @@ package church.lifejourney.bestillknow.activity;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -30,8 +28,13 @@ public class ShowDevotionalActivity extends AppCompatActivity {
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 		DevotionalContentParser.Sections sections = new DevotionalContentParser().splitContent(getIntent().getStringExtra("content"));
-		setupIntroSection(sections.intro, findViewById(R.id.dev_intro_view));
-		setupPassageSection(sections, findViewById(R.id.dev_passage_view));
+		if (sections.intro != null) {
+			setupIntroSection(sections.intro, findViewById(R.id.dev_intro_view));
+			setupPassageSection(sections, findViewById(R.id.dev_passage_view));
+		} else {
+			findViewById(R.id.dev_intro_view).setVisibility(View.GONE);
+			findViewById(R.id.dev_passage_view).setVisibility(View.GONE);
+		}
 		setupContentSection(sections.content, findViewById(R.id.dev_content_view));
 	}
 
@@ -54,5 +57,11 @@ public class ShowDevotionalActivity extends AppCompatActivity {
 	private void setContent(String html, TextView target) {
 		target.setText(Html.fromHtml(html, new DevotionalImageGetter(), new DevotionalTagHandler()));
 		target.setMovementMethod(new DevotionalLinkMethod(this));
+	}
+
+	@Override
+	public boolean onSupportNavigateUp() {
+		onBackPressed();
+		return true;
 	}
 }
