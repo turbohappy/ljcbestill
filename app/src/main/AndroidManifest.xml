@@ -13,7 +13,8 @@
         <activity
             android:name=".activity.DevListActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
+			android:launchMode="singleTop"
+			android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -23,7 +24,9 @@
         <activity
             android:name=".activity.ShowDevotionalActivity"
             android:label="@string/title_activity_show_devotional"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+			android:parentActivityName=".activity.DevListActivity"
+			>
         </activity>
     </application>
 </manifest>
