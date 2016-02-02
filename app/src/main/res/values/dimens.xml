@@ -11,4 +11,5 @@
     <dimen name="card_author_size">14sp</dimen>
     <dimen name="card_day_size">20sp</dimen>
     <dimen name="card_monthyear_size">12sp</dimen>
+	<dimen name="passage_verses_size">16sp</dimen>
 </resources>

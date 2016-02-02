@@ -22,6 +22,7 @@ public class ShowDevotionalActivity extends AppCompatActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_show_devotional);
+
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		toolbar.setTitle(getIntent().getStringExtra("title"));
 		setSupportActionBar(toolbar);
@@ -43,6 +44,8 @@ public class ShowDevotionalActivity extends AppCompatActivity {
 	}
 
 	private void setupPassageSection(DevotionalContentParser.Sections sections, View view) {
+		TextView verses = (TextView) view.findViewById(R.id.dev_passage_verses);
+		verses.setText(sections.passages);
 		TabLayout tabs = (TabLayout) view.findViewById(R.id.dev_passage_tab);
 		ViewPager pager = (ViewPager) view.findViewById(R.id.dev_passage_pager);
 		PassageTabsPagerAdapter adapter = new PassageTabsPagerAdapter(getSupportFragmentManager(), sections.linkStub);

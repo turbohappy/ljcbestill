@@ -29,6 +29,8 @@ public class LoadPassageTask extends AsyncTask<String, Void, String> {
 			Logger.debug(this, "Loading passage from " + url);
 			Document doc = Jsoup.connect(url).get();
 			Element el = doc.select("div.result-text-style-normal.text-html").first();
+			el.select("h1.passage-display").remove();
+			el.select("div.footnotes").remove();
 			return el.outerHtml();
 		} catch (Exception e) {
 			this.exception = e;
@@ -39,5 +41,6 @@ public class LoadPassageTask extends AsyncTask<String, Void, String> {
 	protected void onPostExecute(String html) {
 		// TODO: check this.exception
 		contentView.setText(Html.fromHtml(html));
+//		contentView.setText(Html.fromHtml(html, new DevotionalImageGetter(), new DevotionalTagHandler()));
 	}
 }

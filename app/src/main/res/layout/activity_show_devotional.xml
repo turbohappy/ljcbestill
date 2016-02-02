@@ -42,6 +42,7 @@
 				android:id="@+id/dev_intro_view"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
+				android:text="INTRO"
 				/>
 
 			<LinearLayout
@@ -51,7 +52,16 @@
 				android:orientation="vertical"
 				android:background="@android:color/white"
 				>
-
+				<TextView
+					android:id="@+id/dev_passage_verses"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:gravity="center_horizontal"
+					android:textSize="@dimen/passage_verses_size"
+					android:textStyle="bold"
+					android:textColor="@color/textPrimary"
+					android:text="VERSES"
+					/>
 				<android.support.design.widget.TabLayout
 					android:id="@+id/dev_passage_tab"
 					android:layout_width="match_parent"
@@ -59,7 +69,6 @@
 					app:tabGravity="center"
 					app:tabMode="fixed"
 					/>
-
 				<church.lifejourney.bestillknow.helper.WrapContentHeightViewPager
 					android:id="@+id/dev_passage_pager"
 					android:layout_width="match_parent"
@@ -70,6 +79,7 @@
 				android:id="@+id/dev_content_view"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
+				android:text="CONTENT"
 				/>
 		</LinearLayout>
 	</ScrollView>
