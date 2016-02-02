@@ -13,11 +13,11 @@ import church.lifejourney.bestillknow.helper.Logger;
 /**
  * Created by bdavis on 1/27/16.
  */
-public class LoadPassageTask extends AsyncTask<String, Void, String> {
+public class LoadImageTask extends AsyncTask<String, Void, String> {
 
 	private TextView contentView;
 
-	public LoadPassageTask(TextView contentView) {
+	public LoadImageTask(TextView contentView) {
 		this.contentView = contentView;
 	}
 

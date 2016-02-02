@@ -10,8 +10,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import church.lifejourney.bestillknow.R;
+import church.lifejourney.bestillknow.download.URLImageGetter;
 import church.lifejourney.bestillknow.helper.DevotionalContentParser;
-import church.lifejourney.bestillknow.helper.DevotionalImageGetter;
 import church.lifejourney.bestillknow.helper.DevotionalLinkMethod;
 import church.lifejourney.bestillknow.helper.DevotionalTagHandler;
 import church.lifejourney.bestillknow.helper.PassageTabsPagerAdapter;
@@ -58,7 +58,7 @@ public class ShowDevotionalActivity extends AppCompatActivity {
 	}
 
 	private void setContent(String html, TextView target) {
-		target.setText(Html.fromHtml(html, new DevotionalImageGetter(), new DevotionalTagHandler()));
+		target.setText(Html.fromHtml(html, new URLImageGetter(target, this), new DevotionalTagHandler()));
 		target.setMovementMethod(new DevotionalLinkMethod(this));
 	}
 
