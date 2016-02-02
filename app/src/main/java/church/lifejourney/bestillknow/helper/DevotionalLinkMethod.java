@@ -96,10 +96,6 @@ public class DevotionalLinkMethod implements MovementMethod {
 		if (link instanceof URLSpan) {
 			String url = ((URLSpan) link).getURL();
 			if (url != null && (url.contains("biblegateway.com"))) {
-				//TODO:
-//				Intent intent = new Intent(widget.getContext(), PassageActivity.class);
-//				intent.putExtra("passageUrl", url);
-//				activity.startActivity(intent);
 				Toast.makeText(widget.getContext(), "bg link clicked", Toast.LENGTH_SHORT).show();
 				return;
 			}
