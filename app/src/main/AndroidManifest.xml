@@ -25,10 +25,5 @@
             android:label="@string/title_activity_show_devotional"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
-        <activity android:name=".activity.PassageActivity"
-                  android:theme="@style/AppTheme.NoActionBar.Translucent"
-                  android:parentActivityName=".activity.ShowDevotionalActivity"
-            >
-        </activity>
     </application>
 </manifest>
