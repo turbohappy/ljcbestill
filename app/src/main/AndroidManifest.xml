@@ -24,8 +24,10 @@
             android:name=".activity.ShowDevotionalActivity"
             android:label="@string/title_activity_show_devotional"
             android:theme="@style/AppTheme.NoActionBar"
-			android:parentActivityName=".activity.DevListActivity"
 			>
         </activity>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="81484786f44d1dac83f82c82b8873a7acd872ce4" />
     </application>
 </manifest>

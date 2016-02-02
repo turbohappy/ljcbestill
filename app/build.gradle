@@ -1,4 +1,19 @@
+buildscript {
+    repositories {
+        maven { url 'https://maven.fabric.io/public' }
+    }
+
+    dependencies {
+        classpath 'io.fabric.tools:gradle:1.+'
+    }
+}
 apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
+
+repositories {
+    maven { url 'https://maven.fabric.io/public' }
+}
+
 
 android {
 	compileSdkVersion 23
@@ -10,13 +25,28 @@ android {
 		versionCode 1
 		versionName "1.0"
 	}
+	signingConfigs {
+		release {
+			storeFile file(RELEASE_STORE_FILE)
+			storePassword RELEASE_STORE_PASSWORD
+			keyAlias RELEASE_KEY_ALIAS
+			keyPassword RELEASE_KEY_PASSWORD
+		}
+	}
 	buildTypes {
 		debug {
 			debuggable true
+			ext.enableCrashlytics = false
+		}
+		qa {
+			debuggable false
+			signingConfig signingConfigs.release
 		}
 		release {
 			minifyEnabled true
+			debuggable false
 			proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+			signingConfig signingConfigs.release
 		}
 	}
 	productFlavors {
@@ -37,4 +67,7 @@ dependencies {
 	compile 'com.android.support:design:23.1.1'
 	compile 'org.simpleframework:simple-xml:2.7.1'
 	compile 'org.jsoup:jsoup:1.8.3'
+    compile('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') {
+        transitive = true;
+    }
 }

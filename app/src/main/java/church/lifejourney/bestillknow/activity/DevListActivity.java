@@ -8,8 +8,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.crashlytics.android.Crashlytics;
+import com.crashlytics.android.core.CrashlyticsCore;
+
+import church.lifejourney.bestillknow.BuildConfig;
 import church.lifejourney.bestillknow.R;
 import church.lifejourney.bestillknow.download.RSSList;
+import io.fabric.sdk.android.Fabric;
 
 public class DevListActivity extends AppCompatActivity implements RSSList.RSSListUpdatedListener {
 	private RecyclerView mRecyclerView;
@@ -20,6 +25,7 @@ public class DevListActivity extends AppCompatActivity implements RSSList.RSSLis
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		initializeCrashlytics();
 
 		setContentView(R.layout.activity_dev_list);
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -53,6 +59,13 @@ public class DevListActivity extends AppCompatActivity implements RSSList.RSSLis
 				loadMoreIfNeeded();
 			}
 		});
+	}
+
+	private void initializeCrashlytics() {
+		Crashlytics crashlyticsKit = new Crashlytics.Builder()
+				.core(new CrashlyticsCore.Builder().disabled(BuildConfig.DEBUG).build())
+				.build();
+		Fabric.with(this, crashlyticsKit);
 	}
 
 	@Override
