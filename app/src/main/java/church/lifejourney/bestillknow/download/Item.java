@@ -10,56 +10,55 @@ import java.util.Date;
  * Created by bdavis on 1/27/16.
  */
 public class Item {
-    @Element(required=false)
-    protected String title;
+	@Element(required = false)
+	protected String title;
 
-    @Element(required=false)
-    protected String link;
+	@Element(required = false)
+	protected String link;
 
-    @Element(required=false)
-    @Convert(PubDateConverter.class)
-    protected Date pubDate;
+	@Element(required = false)
+	@Convert(PubDateConverter.class)
+	protected Date pubDate;
 
-    @Namespace(prefix = "dc")
-    @Element(required=false)
-    protected String creator;
+	@Namespace(prefix = "dc")
+	@Element(required = false)
+	protected String creator;
 
-//    @Element(required=false)
-//    private String category;
-    //TODO: causing exception which seems odd
+	@Element(required = false)
+	protected String description;
 
-    @Element(required=false)
-    protected String description;
+	@Namespace(prefix = "content")
+	@Element(name = "encoded", required = true)
+	protected String content;
 
-    @Namespace(prefix = "content")
-    @Element(name = "encoded")
-    protected String content;
+	@Element(required = true)
+	protected String guid;
 
-    public String getTitle() {
-        return title;
-    }
+	public String getTitle() {
+		return title;
+	}
 
-    public String getLink() {
-        return link;
-    }
+	public String getLink() {
+		return link;
+	}
 
-    public Date getPubDate() {
-        return pubDate;
-    }
+	public Date getPubDate() {
+		return pubDate;
+	}
 
-    public String getDescription() {
-        return description;
-    }
+	public String getDescription() {
+		return description;
+	}
 
-    public String getContent() {
-        return content;
-    }
+	public String getContent() {
+		return content;
+	}
 
-    public String getCreator() {
-        return creator;
-    }
+	public String getCreator() {
+		return creator;
+	}
 
-//    public String getCategory() {
-//        return category;
-//    }
+	public String getGuid() {
+		return guid;
+	}
 }

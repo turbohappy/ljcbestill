@@ -14,38 +14,43 @@ import church.lifejourney.bestillknow.helper.Logger;
 /**
  * Created by bdavis on 1/27/16.
  */
-public class RSSTask  extends AsyncTask<String, Void, RSS> {
-    private List<Item> existingItems;
-    private RSSList.RSSListUpdatedListener listener;
+public class RSSTask extends AsyncTask<Integer, Void, RSS> {
 
-    public RSSTask(List<Item> existingItems, RSSList.RSSListUpdatedListener listener) {
-        this.existingItems = existingItems;
-        this.listener = listener;
-    }
+	private RSSItemsListener listener;
 
-    private Exception exception;
+	public RSSTask(RSSItemsListener listener) {
+		this.listener = listener;
+	}
 
-    protected RSS doInBackground(String... urls) {
-        try {
-            String url = urls[0];
-            Logger.debug(this, "Reading " + url);
-            return read(url);
-        } catch (Exception e) {
-            this.exception = e;
-            return null;
-        }
-    }
+	private Exception exception;
 
-    protected void onPostExecute(RSS rss) {
-        // TODO: check this.exception
+	protected RSS doInBackground(Integer... pages) {
+		try {
+			int page = pages[0];
+			String url = "http://lifejourneychurch.cc/bestill/feed?paged=" +
+					page;
+			Logger.debug(this, "Reading " + url);
+			return read(url);
+		} catch (Exception e) {
+			this.exception = e;
+			return null;
+		}
+	}
 
-        existingItems.addAll(rss.getChannel().getItems());
-        listener.listUpdated();
-    }
+	protected void onPostExecute(RSS rss) {
+		// TODO: check this.exception
 
-    private RSS read(String url) throws Exception {
-        Serializer serializer = new Persister(new AnnotationStrategy());
+		List<Item> items = rss.getChannel().getItems();
+		listener.itemsReturned(items);
+	}
 
-        return serializer.read(RSS.class, new URL(url).openStream(), false);
-    }
+	private RSS read(String url) throws Exception {
+		Serializer serializer = new Persister(new AnnotationStrategy());
+
+		return serializer.read(RSS.class, new URL(url).openStream(), false);
+	}
+
+	public interface RSSItemsListener {
+		void itemsReturned(List<Item> items);
+	}
 }

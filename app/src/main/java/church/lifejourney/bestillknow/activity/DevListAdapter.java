@@ -9,18 +9,18 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.Locale;
 
 import church.lifejourney.bestillknow.R;
-import church.lifejourney.bestillknow.download.Item;
-import church.lifejourney.bestillknow.download.RSSList;
+import church.lifejourney.bestillknow.db.Devotional;
 
 /**
  * Created by bdavis on 1/28/16.
  */
 public class DevListAdapter extends RecyclerView.Adapter<DevListAdapter.ViewHolder> {
 	private Activity parent;
-	private RSSList rssList;
+	private List<Devotional> devotionals;
 
 	// Provide a reference to the views for each data item
 	// Complex data items may need more than one view per item, and
@@ -40,9 +40,9 @@ public class DevListAdapter extends RecyclerView.Adapter<DevListAdapter.ViewHold
 		}
 	}
 
-	public DevListAdapter(Activity parent, RSSList rssList) {
+	public DevListAdapter(Activity parent, List<Devotional> devotionals) {
 		this.parent = parent;
-		this.rssList = rssList;
+		this.devotionals = devotionals;
 	}
 
 	@Override
@@ -57,18 +57,16 @@ public class DevListAdapter extends RecyclerView.Adapter<DevListAdapter.ViewHold
 
 	@Override
 	public void onBindViewHolder(ViewHolder holder, int position) {
-		final Item item = rssList.getItem(position);
-		holder.titleView.setText(item.getTitle());
-		holder.authorView.setText(String.format("by %s", item.getCreator()));
-		holder.dayView.setText(new SimpleDateFormat("d", Locale.US).format(item.getPubDate()));
-		holder.monthyearView.setText(new SimpleDateFormat("MMM yyyy", Locale.US).format(item.getPubDate()));
+		final Devotional devotional = devotionals.get(position);
+		holder.titleView.setText(devotional.getTitle());
+		holder.authorView.setText(String.format("by %s", devotional.getCreator()));
+		holder.dayView.setText(new SimpleDateFormat("d", Locale.US).format(devotional.getPubDate()));
+		holder.monthyearView.setText(new SimpleDateFormat("MMM yyyy", Locale.US).format(devotional.getPubDate()));
 		holder.itemView.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(parent.getApplicationContext(), ShowDevotionalActivity.class);
-				intent.putExtra("url", item.getLink());
-				intent.putExtra("content", item.getContent());
-				intent.putExtra("title", item.getTitle());
+				intent.putExtra("guid",devotional.getGuid());
 				parent.startActivity(intent);
 			}
 		});
@@ -76,6 +74,6 @@ public class DevListAdapter extends RecyclerView.Adapter<DevListAdapter.ViewHold
 
 	@Override
 	public int getItemCount() {
-		return rssList.size();
+		return devotionals.size();
 	}
 }
