@@ -39,7 +39,10 @@ public class LoadImageTask extends AsyncTask<String, Void, String> {
 	}
 
 	protected void onPostExecute(String html) {
-		// TODO: check this.exception
-		contentView.setText(Html.fromHtml(html));
+		if (this.exception != null) {
+			Logger.error(this, "Problem loading image", this.exception);
+		} else {
+			contentView.setText(Html.fromHtml(html));
+		}
 	}
 }

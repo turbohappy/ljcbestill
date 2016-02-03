@@ -2,7 +2,7 @@ package church.lifejourney.bestillknow.db;
 
 import java.util.List;
 
-import church.lifejourney.bestillknow.download.Item;
+import church.lifejourney.bestillknow.download.RSSItem;
 import church.lifejourney.bestillknow.helper.DevotionalParser;
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -36,7 +36,7 @@ public class DevotionalDb {
 		}
 	}
 
-	public Devotional saveOrGetStored(Item item) {
+	public Devotional saveOrGetStored(RSSItem item) {
 		Devotional devotional = readDevotional(item.getGuid());
 
 		if (devotional == null) {
@@ -46,7 +46,7 @@ public class DevotionalDb {
 		return devotional;
 	}
 
-	private Devotional parseDevotionalAndWriteToDb(Item item) {
+	private Devotional parseDevotionalAndWriteToDb(RSSItem item) {
 		Devotional devUnwritten = new DevotionalParser().parse(item);
 
 		realm.beginTransaction();

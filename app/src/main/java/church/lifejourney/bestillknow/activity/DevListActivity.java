@@ -15,14 +15,14 @@ import church.lifejourney.bestillknow.BuildConfig;
 import church.lifejourney.bestillknow.R;
 import church.lifejourney.bestillknow.db.Devotional;
 import church.lifejourney.bestillknow.db.DevotionalDb;
-import church.lifejourney.bestillknow.download.Item;
-import church.lifejourney.bestillknow.download.RSSTask;
+import church.lifejourney.bestillknow.download.LoadDevotionalTask;
+import church.lifejourney.bestillknow.download.RSSItem;
 import church.lifejourney.bestillknow.helper.Logger;
 import io.fabric.sdk.android.Fabric;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
-public class DevListActivity extends AppCompatActivity implements RSSTask
+public class DevListActivity extends AppCompatActivity implements LoadDevotionalTask
 		.RSSItemsListener {
 	private RecyclerView mRecyclerView;
 	private RecyclerView.Adapter mAdapter;
@@ -83,7 +83,8 @@ public class DevListActivity extends AppCompatActivity implements RSSTask
 	private void initializeRealm() {
 		RealmConfiguration realmConfig = new RealmConfiguration.Builder(this).name(RealmConfiguration
 				.DEFAULT_REALM_NAME).build();
-		//TODO: Realm.deleteRealm(realmConfig);
+		//TODO:
+		Realm.deleteRealm(realmConfig);
 		Realm.setDefaultConfiguration(realmConfig);
 		Realm realm = Realm.getDefaultInstance();
 		Logger.debug(this, "Realm DB is at " + realm.getPath());
@@ -101,7 +102,7 @@ public class DevListActivity extends AppCompatActivity implements RSSTask
 	public synchronized void loadMoreDevotionals() {
 		if (!loading) {
 			loading = true;
-			new RSSTask(this).execute(numDevotionalPagesAlreadyLoaded() + 1);
+			new LoadDevotionalTask(this).execute(numDevotionalPagesAlreadyLoaded() + 1);
 		}
 	}
 
@@ -112,8 +113,8 @@ public class DevListActivity extends AppCompatActivity implements RSSTask
 	}
 
 	@Override
-	public void itemsReturned(List<Item> items) {
-		for (Item item : items) {
+	public void itemsReturned(List<RSSItem> items) {
+		for (RSSItem item : items) {
 			devotionalDb.saveOrGetStored(item);
 		}
 		mAdapter.notifyItemInserted(devotionals.size() - 1);

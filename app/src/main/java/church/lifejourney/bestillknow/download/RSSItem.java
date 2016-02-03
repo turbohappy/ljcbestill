@@ -2,6 +2,7 @@ package church.lifejourney.bestillknow.download;
 
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Namespace;
+import org.simpleframework.xml.Root;
 import org.simpleframework.xml.convert.Convert;
 
 import java.util.Date;
@@ -9,7 +10,8 @@ import java.util.Date;
 /**
  * Created by bdavis on 1/27/16.
  */
-public class Item {
+@Root(name = "item")
+public class RSSItem {
 	@Element(required = false)
 	protected String title;
 

@@ -5,13 +5,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import church.lifejourney.bestillknow.db.Devotional;
-import church.lifejourney.bestillknow.download.Item;
+import church.lifejourney.bestillknow.download.RSSItem;
 
 /**
  * Created by bdavis on 2/3/16.
  */
 public class DevotionalParser {
-	public Devotional parse(Item item) {
+	public Devotional parse(RSSItem item) {
 		Devotional dev = new Devotional();
 		dev.setGuid(item.getGuid());
 		dev.setTitle(item.getTitle());
