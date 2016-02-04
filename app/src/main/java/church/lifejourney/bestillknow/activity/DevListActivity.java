@@ -83,8 +83,7 @@ public class DevListActivity extends AppCompatActivity implements LoadDevotional
 	private void initializeRealm() {
 		RealmConfiguration realmConfig = new RealmConfiguration.Builder(this).name(RealmConfiguration
 				.DEFAULT_REALM_NAME).build();
-		//TODO:
-		Realm.deleteRealm(realmConfig);
+		//TODO:		Realm.deleteRealm(realmConfig);
 		Realm.setDefaultConfiguration(realmConfig);
 		Realm realm = Realm.getDefaultInstance();
 		Logger.debug(this, "Realm DB is at " + realm.getPath());

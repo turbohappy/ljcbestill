@@ -8,6 +8,9 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
+import java.util.List;
+
+import church.lifejourney.bestillknow.db.Passage;
 import church.lifejourney.bestillknow.helper.Logger;
 
 /**
@@ -15,10 +18,10 @@ import church.lifejourney.bestillknow.helper.Logger;
  */
 public class LoadPassageTask extends AsyncTask<String, Void, String> {
 
-	private TextView contentView;
+	private LoadPassageListener listener;
 
-	public LoadPassageTask(TextView contentView) {
-		this.contentView = contentView;
+	public LoadPassageTask(LoadPassageListener listener) {
+		this.listener = listener;
 	}
 
 	private Exception exception;
@@ -42,7 +45,11 @@ public class LoadPassageTask extends AsyncTask<String, Void, String> {
 		if (this.exception != null) {
 			Logger.error(this, "Problem loading passage", this.exception);
 		} else {
-			contentView.setText(Html.fromHtml(html));
+			listener.loaded(html);
 		}
+	}
+
+	public interface LoadPassageListener {
+		void loaded(String passageText);
 	}
 }

@@ -93,13 +93,13 @@ public class DevotionalLinkMethod implements MovementMethod {
 	}
 
 	private void handleLinkClick(ClickableSpan link, TextView widget) {
-		if (link instanceof URLSpan) {
-			String url = ((URLSpan) link).getURL();
-			if (url != null && (url.contains("biblegateway.com"))) {
-				Toast.makeText(widget.getContext(), "bg link clicked", Toast.LENGTH_SHORT).show();
-				return;
-			}
-		}
+//		if (link instanceof URLSpan) {
+//			String url = ((URLSpan) link).getURL();
+//			if (url != null && (url.contains("biblegateway.com"))) {
+//				Toast.makeText(widget.getContext(), "bg link clicked", Toast.LENGTH_SHORT).show();
+//				return;
+//			}
+//		}
 		link.onClick(widget);
 	}
 

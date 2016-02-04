@@ -58,7 +58,7 @@ public class ShowDevotionalActivity extends AppCompatActivity {
 		verses.setText(dev.getPassages());
 		TabLayout tabs = (TabLayout) view.findViewById(R.id.dev_passage_tab);
 		ViewPager pager = (ViewPager) view.findViewById(R.id.dev_passage_pager);
-		PassageTabsPagerAdapter adapter = new PassageTabsPagerAdapter(getSupportFragmentManager(), dev.getLinkStub());
+		PassageTabsPagerAdapter adapter = new PassageTabsPagerAdapter(getSupportFragmentManager(), dev);
 		pager.setAdapter(adapter);
 		tabs.setupWithViewPager(pager);
 	}

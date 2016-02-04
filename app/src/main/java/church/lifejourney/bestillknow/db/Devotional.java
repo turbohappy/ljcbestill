@@ -1,8 +1,5 @@
 package church.lifejourney.bestillknow.db;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import java.util.Date;
 
 import io.realm.RealmObject;
