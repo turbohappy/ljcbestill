@@ -113,6 +113,7 @@ public class DevListActivity extends AppCompatActivity implements LoadDevotional
 
 	@Override
 	public void itemsReturned(List<RSSItem> items) {
+		Logger.debug(this, "Loaded " + items.size() + " items");
 		for (RSSItem item : items) {
 			devotionalDb.saveOrGetStored(item);
 		}
