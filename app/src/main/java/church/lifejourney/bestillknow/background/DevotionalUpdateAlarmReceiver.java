@@ -39,6 +39,9 @@ public class DevotionalUpdateAlarmReceiver extends BroadcastReceiver implements 
 		this.context = context;
 		this.notificationCreator = new NotificationCreator();
 		this.pendingResult = goAsync();
+		if (context.getResources().getInteger(R.integer.delete_record_on_start) == 1) {
+			devotionalDb.deleteFirstXDevotionals(2);
+		}
 		new LoadDevotionalTask(this).execute(1); // first page
 	}
 

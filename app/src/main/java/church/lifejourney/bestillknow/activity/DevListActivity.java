@@ -95,11 +95,7 @@ public class DevListActivity extends AppCompatActivity implements LoadDevotional
 	private static final int PAGE_SIZE = 6;
 
 	private int numDevotionalPagesAlreadyLoaded() {
-		int numAlreadyLoaded = (int) Math.floor(devotionals.size() * 1.0 / PAGE_SIZE);
-		if (getResources().getInteger(R.integer.skip_loading_first_page_initially) == 1) {
-			numAlreadyLoaded++;
-		}
-		return numAlreadyLoaded;
+		return (int) Math.floor(devotionals.size() * 1.0 / PAGE_SIZE);
 	}
 
 	@Override

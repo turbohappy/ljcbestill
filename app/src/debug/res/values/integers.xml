@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<integer name="background_load_interval">60000</integer>
-	<integer name="clear_db_on_start">1</integer>
-	<integer name="skip_loading_first_page_initially">1</integer>
+	<integer name="clear_db_on_start">0</integer>
+	<integer name="delete_record_on_start">1</integer>
 </resources>

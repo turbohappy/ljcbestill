@@ -9,6 +9,7 @@ import java.util.List;
 import church.lifejourney.bestillknow.activity.Application;
 import church.lifejourney.bestillknow.download.RSSItem;
 import church.lifejourney.bestillknow.helper.DevotionalParser;
+import church.lifejourney.bestillknow.helper.Logger;
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
@@ -37,16 +38,11 @@ public class DevotionalDb {
 	}
 
 	public List<Devotional> readDevotionals() {
-		RealmResults<Devotional> results = realm.where(Devotional.class)
-				.findAll();
-		results.sort("pubDate", Sort.DESCENDING);
-		return results;
+		return realm.where(Devotional.class).findAllSorted("pubDate", Sort.DESCENDING);
 	}
 
 	public List<Devotional> readUnreadDevotionals() {
-		RealmResults<Devotional> results = realm.where(Devotional.class).equalTo("unread", true)
-				.findAll();
-		return results;
+		return realm.where(Devotional.class).equalTo("unread", true).findAll();
 	}
 
 	public Devotional readDevotional(String guid) {
@@ -96,5 +92,17 @@ public class DevotionalDb {
 		devUnwritten.setUnread(markUnread);
 
 		return realm.copyToRealm(devUnwritten);
+	}
+
+	public void deleteFirstXDevotionals(int number) {
+		realm.beginTransaction();
+
+		RealmResults<Devotional> devotionals = realm.where(Devotional.class).findAllSorted("pubDate", Sort.DESCENDING);
+		for (int i = 0; i < number; i++) {
+			devotionals.first().removeFromRealm();
+		}
+
+		realm.commitTransaction();
+		Logger.debug(this, String.format("Removed first %s devotionals", number));
 	}
 }

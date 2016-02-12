@@ -4,5 +4,5 @@
     <integer name="card_author_maxlines">1</integer>
 	<integer name="background_load_interval">3600000</integer>
 	<integer name="clear_db_on_start">0</integer>
-	<integer name="skip_loading_first_page_initially">0</integer>
+	<integer name="delete_record_on_start">0</integer>
 </resources>
