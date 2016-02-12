@@ -1,11 +1,18 @@
 package church.lifejourney.bestillknow.db;
 
+import android.content.Context;
+import android.support.annotation.NonNull;
+
+import java.util.ArrayList;
 import java.util.List;
 
+import church.lifejourney.bestillknow.activity.Application;
 import church.lifejourney.bestillknow.download.RSSItem;
 import church.lifejourney.bestillknow.helper.DevotionalParser;
 import io.realm.Realm;
+import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
+import io.realm.Sort;
 
 /**
  * Created by bdavis on 2/3/16.
@@ -17,8 +24,27 @@ public class DevotionalDb {
 		this.realm = Realm.getDefaultInstance();
 	}
 
+	public DevotionalDb(Context context) {
+		this.realm = Realm.getInstance(Application.realmConfig(context));
+	}
+
+	public void addChangeListener(RealmChangeListener listener) {
+		realm.addChangeListener(listener);
+	}
+
+	public void close() {
+		this.realm.close();
+	}
+
 	public List<Devotional> readDevotionals() {
 		RealmResults<Devotional> results = realm.where(Devotional.class)
+				.findAll();
+		results.sort("pubDate", Sort.DESCENDING);
+		return results;
+	}
+
+	public List<Devotional> readUnreadDevotionals() {
+		RealmResults<Devotional> results = realm.where(Devotional.class).equalTo("unread", true)
 				.findAll();
 		return results;
 	}
@@ -36,23 +62,39 @@ public class DevotionalDb {
 		}
 	}
 
-	public Devotional saveOrGetStored(RSSItem item) {
-		Devotional devotional = readDevotional(item.getGuid());
-
-		if (devotional == null) {
-			devotional = parseDevotionalAndWriteToDb(item);
-		}
-
-		return devotional;
+	public void markDevotionalRead(Devotional devotional) {
+		realm.beginTransaction();
+		devotional.setUnread(false);
+		realm.commitTransaction();
 	}
 
-	private Devotional parseDevotionalAndWriteToDb(RSSItem item) {
-		Devotional devUnwritten = new DevotionalParser().parse(item);
+	@NonNull
+	public List<Devotional> saveIfNew(List<RSSItem> items, boolean markUnread) {
+		List<Devotional> written = new ArrayList<>();
 
 		realm.beginTransaction();
-		Devotional devWritten = realm.copyToRealm(devUnwritten);
-		realm.commitTransaction();
 
-		return devWritten;
+		for (RSSItem item : items) {
+			Devotional devotional = readDevotional(item.getGuid());
+
+			if (devotional == null) {
+				written.add(parseDevotionalAndWriteToDbWithoutCommitting(item, markUnread));
+			}
+		}
+
+		if (written.size() > 0) {
+			realm.commitTransaction();
+		} else {
+			realm.cancelTransaction();
+		}
+
+		return written;
+	}
+
+	private Devotional parseDevotionalAndWriteToDbWithoutCommitting(RSSItem item, boolean markUnread) {
+		Devotional devUnwritten = new DevotionalParser().parse(item);
+		devUnwritten.setUnread(markUnread);
+
+		return realm.copyToRealm(devUnwritten);
 	}
 }

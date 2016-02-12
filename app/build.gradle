@@ -38,10 +38,6 @@ android {
 			debuggable true
 			ext.enableCrashlytics = false
 		}
-		qa {
-			debuggable false
-			signingConfig signingConfigs.release
-		}
 		release {
 //			minifyEnabled true
 			debuggable false

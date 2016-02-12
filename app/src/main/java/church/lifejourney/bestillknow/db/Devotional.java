@@ -20,6 +20,7 @@ public class Devotional extends RealmObject {
 	private String title;
 	private String creator;
 	private Date pubDate;
+	private boolean unread;
 
 	public String getGuid() {
 		return guid;
@@ -83,5 +84,13 @@ public class Devotional extends RealmObject {
 
 	public void setPubDate(Date pubDate) {
 		this.pubDate = pubDate;
+	}
+
+	public boolean isUnread() {
+		return unread;
+	}
+
+	public void setUnread(boolean unread) {
+		this.unread = unread;
 	}
 }

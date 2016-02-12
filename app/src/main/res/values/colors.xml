@@ -8,4 +8,5 @@
     <color name="textSecondary">#8A000000</color>
     <color name="textHint">#61000000</color>
     <color name="transparent">#00000000</color>
+	<color name="newDevotional">#ff7ab80e</color>
 </resources>

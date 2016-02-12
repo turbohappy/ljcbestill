@@ -2,10 +2,12 @@ package church.lifejourney.bestillknow.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
@@ -28,6 +30,7 @@ public class DevListAdapter extends RecyclerView.Adapter<DevListAdapter.ViewHold
 	public static class ViewHolder extends RecyclerView.ViewHolder {
 		public TextView titleView;
 		public TextView authorView;
+		public LinearLayout dateView;
 		public TextView dayView;
 		public TextView monthyearView;
 
@@ -35,6 +38,7 @@ public class DevListAdapter extends RecyclerView.Adapter<DevListAdapter.ViewHold
 			super(v);
 			titleView = (TextView) v.findViewById(R.id.card_title);
 			authorView = (TextView) v.findViewById(R.id.card_author);
+			dateView = (LinearLayout) v.findViewById(R.id.card_date);
 			dayView = (TextView) v.findViewById(R.id.card_date_day);
 			monthyearView = (TextView) v.findViewById(R.id.card_date_monthyear);
 		}
@@ -66,10 +70,15 @@ public class DevListAdapter extends RecyclerView.Adapter<DevListAdapter.ViewHold
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(parent.getApplicationContext(), ShowDevotionalActivity.class);
-				intent.putExtra("guid",devotional.getGuid());
+				intent.putExtra("guid", devotional.getGuid());
 				parent.startActivity(intent);
 			}
 		});
+		if (devotional.isUnread()) {
+			holder.titleView.setTypeface(holder.titleView.getTypeface(), Typeface.BOLD);
+			holder.authorView.setTypeface(holder.authorView.getTypeface(), Typeface.BOLD);
+			holder.dateView.setBackgroundResource(R.drawable.card_date_unread);
+		}
 	}
 
 	@Override

@@ -2,8 +2,6 @@ package church.lifejourney.bestillknow.db;
 
 import java.util.List;
 
-import church.lifejourney.bestillknow.download.RSSItem;
-import church.lifejourney.bestillknow.helper.DevotionalParser;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
@@ -15,6 +13,10 @@ public class PassageDb {
 
 	public PassageDb() {
 		this.realm = Realm.getDefaultInstance();
+	}
+
+	public void close() {
+		this.realm.close();
 	}
 
 	public List<Passage> readPassages(String devotionalId) {

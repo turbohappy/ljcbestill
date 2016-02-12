@@ -77,6 +77,8 @@ public class PassageFragment extends Fragment implements LoadPassageTask.LoadPas
 		passage.setDevotionalId(devGuid);
 		passage.setTranslation(translation);
 		passage.setContent(passageText);
-		new PassageDb().savePassage(passage);
+		PassageDb passageDb = new PassageDb();
+		passageDb.savePassage(passage);
+		passageDb.close();
 	}
 }

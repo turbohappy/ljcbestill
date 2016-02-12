@@ -13,7 +13,7 @@
                   android:layout_height="wrap_content"
                   android:layout_alignParentTop="false"
                   android:layout_centerVertical="true"
-                  android:background="@drawable/card_date"
+                  android:background="@drawable/card_date_read"
                   android:orientation="vertical"
                   android:layout_alignParentLeft="true"
                   android:layout_alignParentStart="true"

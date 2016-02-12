@@ -29,11 +29,13 @@ public class ShowDevotionalActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_show_devotional);
 
-		Devotional dev = devotionalDb.readDevotional(getIntent().getStringExtra("guid"));
+		String guid = getIntent().getStringExtra("guid");
+		Devotional dev = devotionalDb.readDevotional(guid);
 
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		toolbar.setTitle(dev.getTitle());
 		setSupportActionBar(toolbar);
+		assert getSupportActionBar() != null;
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 		if (dev.getIntro() != null) {
@@ -47,6 +49,13 @@ public class ShowDevotionalActivity extends AppCompatActivity {
 			findViewById(R.id.dev_passage_view).setVisibility(View.GONE);
 		}
 		setupContentSection(dev.getContent(), findViewById(R.id.dev_content_view));
+		devotionalDb.markDevotionalRead(dev);
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		devotionalDb.close();
 	}
 
 	private void setupIntroSection(String html, View view) {

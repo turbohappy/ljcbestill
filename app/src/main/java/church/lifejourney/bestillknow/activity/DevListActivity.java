@@ -6,24 +6,19 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
-import com.crashlytics.android.Crashlytics;
-import com.crashlytics.android.core.CrashlyticsCore;
-
 import java.util.List;
 
-import church.lifejourney.bestillknow.BuildConfig;
 import church.lifejourney.bestillknow.R;
+import church.lifejourney.bestillknow.background.DevotionalUpdateAlarmReceiver;
 import church.lifejourney.bestillknow.db.Devotional;
 import church.lifejourney.bestillknow.db.DevotionalDb;
 import church.lifejourney.bestillknow.download.LoadDevotionalTask;
 import church.lifejourney.bestillknow.download.RSSItem;
 import church.lifejourney.bestillknow.helper.Logger;
-import io.fabric.sdk.android.Fabric;
-import io.realm.Realm;
-import io.realm.RealmConfiguration;
+import io.realm.RealmChangeListener;
 
 public class DevListActivity extends AppCompatActivity implements LoadDevotionalTask
-		.RSSItemsListener {
+		.LoadDevotionalListener {
 	private RecyclerView mRecyclerView;
 	private RecyclerView.Adapter mAdapter;
 	private LinearLayoutManager mLayoutManager;
@@ -33,29 +28,32 @@ public class DevListActivity extends AppCompatActivity implements LoadDevotional
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		initializeCrashlytics();
-		initializeRealm();
-		devotionalDb = new DevotionalDb();
+
+		DevotionalUpdateAlarmReceiver.schedule(this);
 
 		setContentView(R.layout.activity_dev_list);
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
 
 		mRecyclerView = (RecyclerView) findViewById(R.id.dev_recycler_view);
-
-		// use this setting to improve performance if you know that changes
-		// in content do not change the layout size of the RecyclerView
 		mRecyclerView.setHasFixedSize(true);
-
-		// use a linear layout manager
 		mLayoutManager = new LinearLayoutManager(this);
 		mRecyclerView.setLayoutManager(mLayoutManager);
 
-		// specify an adapter (see also next example)
+		devotionalDb = new DevotionalDb();
 		devotionals = devotionalDb.readDevotionals();
-		mAdapter = new DevListAdapter(this, devotionals);
-		mRecyclerView.setAdapter(mAdapter);
 
+		mAdapter = new DevListAdapter(this, devotionals);
+		devotionalDb.addChangeListener(new RealmChangeListener() {
+			@Override
+			public void onChange() {
+				Logger.debug(this, "Realm dataset changed");
+				mAdapter.notifyDataSetChanged();
+				mRecyclerView.invalidate();
+			}
+		});
+
+		mRecyclerView.setAdapter(mAdapter);
 		mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
 			@Override
 			public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -72,21 +70,10 @@ public class DevListActivity extends AppCompatActivity implements LoadDevotional
 		}
 	}
 
-	private void initializeCrashlytics() {
-		Crashlytics crashlyticsKit = new Crashlytics.Builder()
-				.core(new CrashlyticsCore.Builder().disabled(BuildConfig
-						.DEBUG).build())
-				.build();
-		Fabric.with(this, crashlyticsKit);
-	}
-
-	private void initializeRealm() {
-		RealmConfiguration realmConfig = new RealmConfiguration.Builder(this).name(RealmConfiguration
-				.DEFAULT_REALM_NAME).build();
-		//TODO:		Realm.deleteRealm(realmConfig);
-		Realm.setDefaultConfiguration(realmConfig);
-		Realm realm = Realm.getDefaultInstance();
-		Logger.debug(this, "Realm DB is at " + realm.getPath());
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		devotionalDb.close();
 	}
 
 	private static final int visibleThreshold = 3;
@@ -108,16 +95,21 @@ public class DevListActivity extends AppCompatActivity implements LoadDevotional
 	private static final int PAGE_SIZE = 6;
 
 	private int numDevotionalPagesAlreadyLoaded() {
-		return (int) Math.floor(mLayoutManager.getItemCount() * 1.0 / PAGE_SIZE);
+		int numAlreadyLoaded = (int) Math.floor(devotionals.size() * 1.0 / PAGE_SIZE);
+		if (getResources().getInteger(R.integer.skip_loading_first_page_initially) == 1) {
+			numAlreadyLoaded++;
+		}
+		return numAlreadyLoaded;
 	}
 
 	@Override
-	public void itemsReturned(List<RSSItem> items) {
+	public void devotionalsLoaded(int page, List<RSSItem> items) {
 		Logger.debug(this, "Loaded " + items.size() + " items");
-		for (RSSItem item : items) {
-			devotionalDb.saveOrGetStored(item);
-		}
-		mAdapter.notifyItemInserted(devotionals.size() - 1);
+		devotionalDb.saveIfNew(items, false);
 		loading = false;
+
+		if (notEnoughDevotionalsLoaded()) {
+			loadMoreDevotionals();
+		}
 	}
 }
