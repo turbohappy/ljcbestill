@@ -37,42 +37,44 @@
 			android:layout_height="wrap_content"
 			android:orientation="vertical"
 			>
-
 			<TextView
 				android:id="@+id/dev_intro_view"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:text="INTRO"
+				android:layout_gravity="left"
 				/>
 
 			<LinearLayout
 				android:id="@+id/dev_passage_view"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:orientation="vertical"
 				android:background="@android:color/white"
+				android:orientation="vertical"
 				>
-				<TextView
-					android:id="@+id/dev_passage_verses"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:gravity="center_horizontal"
-					android:textSize="@dimen/passage_verses_size"
-					android:textStyle="bold"
-					android:textColor="@color/textPrimary"
-					android:text="VERSES"
-					/>
-				<android.support.design.widget.TabLayout
-					android:id="@+id/dev_passage_tab"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					app:tabGravity="center"
-					app:tabMode="fixed"
-					/>
-				<church.lifejourney.bestillknow.helper.WrapContentHeightViewPager
-					android:id="@+id/dev_passage_pager"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"/>
+				<LinearLayout android:layout_width="match_parent"
+							  android:layout_height="wrap_content"
+							  android:orientation="horizontal">
+					<TextView
+						android:id="@+id/dev_passage_verses"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_gravity="start"
+						android:text="VERSES"
+						android:textColor="@color/textPrimary"
+						android:textSize="@dimen/passage_verses_size"
+						android:textStyle="bold"
+						/>
+					<Spinner
+						android:id="@+id/dev_passage_translation_selector"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_gravity="end"
+						/>
+				</LinearLayout>
+				<TextSwitcher android:id="@+id/dev_passage_content"
+							  android:layout_width="match_parent"
+							  android:layout_height="wrap_content"/>
 			</LinearLayout>
 
 			<TextView
@@ -80,6 +82,7 @@
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:text="CONTENT"
+				android:textColor="@color/textPrimary"
 				/>
 		</LinearLayout>
 	</ScrollView>
